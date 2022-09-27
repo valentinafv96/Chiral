@@ -64,7 +64,7 @@ def dic(n,N,max,imax,zmax):
   if N is None:
     N = 1000000
 
-  # Rango de las soluciones  
+  # Rango en que se generan las listas k-l
 
   if max is None:
     max = 9
@@ -77,8 +77,12 @@ def dic(n,N,max,imax,zmax):
     else:
       imax = int((10*N_uni)//N)
 
-  return {'n':n, 'N': N,'max':9,'imax':imax,'zmax':30.}
+  # Rango de las soluciones quirales encontradas
 
+  if zmax is None:
+    zmax = 30
+
+  return {'n':n, 'N': N,'max':max,'imax':imax,'zmax':zmax}
 
 # PROGRAMA EN PARALELO
 

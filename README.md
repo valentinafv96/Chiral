@@ -1,8 +1,7 @@
 # chiralsol
 
-![Python package](https://github.com/restrepo/anomalies/workflows/Python%20package/badge.svg)
-![Upload Python Package](https://github.com/restrepo/anomalies/workflows/Upload%20Python%20Package/badge.svg)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5526558.svg)](https://doi.org/10.5281/zenodo.5526558)
+![Python package](https://github.com/valentinafv96/chiralsol/workflows/Python%20package/badge.svg)
+![Upload Python Package](https://github.com/valentinafv96/chiralsol/workflows/Upload%20Python%20Package/badge.svg)
 
 Implement the anomaly free solution of  [arXiv:1905.13729](https://arxiv.org/abs/1905.13729) [PRL]:
 

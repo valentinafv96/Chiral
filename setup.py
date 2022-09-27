@@ -34,7 +34,7 @@ if os.name in ('nt', 'dos'):
 def main():
     setup(
         # Application name:
-        name="ChiralSol",
+        name="chiralsol",
 
         # Version number (initial):
         version="0.0.1",
@@ -50,8 +50,8 @@ def main():
         include_package_data=True,
 
         # Details
-        url="https://github.com/valentinafv96/ChiralSol.git",
-
+        url="https://github.com/valentinafv96/chiralsol.git",
+        scripts=['bin/args'],
         #
         license="BSD",
 
@@ -64,11 +64,11 @@ def main():
         # Dependent packages (distributions)
         # See: https://github.com/pypa/pipenv/issues/2171
         # See: https://docs.scipy.org/doc/scipy/dev/toolchain.html#numpy
-        #install_requires=[
+        # install_requires=[
         #    'numpy==1.16.5; python_version=="3.7"',
         #    'numpy>=1.16.5; python_version=="3.8"',
         #    'numpy>=1.16.5; python_version=="3.9"'
-        #],
+        # ],
     )
 
 

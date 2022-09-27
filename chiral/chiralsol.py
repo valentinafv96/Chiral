@@ -15,157 +15,164 @@ warnings.filterwarnings("ignore")
 
 # FUNCIÓN GENERAL PARA CORRER EN PARALELO
 
-def soluciones(arreglo,zmax):
+def soluciones(arreglo, zmax):
 
-  # Se divide el arreglo en las componentes k y l
+    # Se divide el arreglo en las componentes k y l
 
-  split = np.array_split(arreglo,2)
-  k = split[0]
-  l = split[1] 
+    split = np.array_split(arreglo, 2)
+    K = split[0]
+    L = split[1]
 
-  # Se obtiene la solución simplificada con el paquete anomaly
-  
-  anomaly.free(l,k)
-  b = anomaly.free.simplified
+    # Se obtiene la solución simplificada con el paquete anomaly
 
-  # Se organizan los términos de la solución de menor a mayor
+    anomaly.free(L, K)
+    b = anomaly.free.simplified
 
-  b = np.sort(b)
+    # Se organizan los términos de la solución de menor a mayor
 
-  # Se definen los criterios para que las componentes de la 
-  # solución sean != 0, estén en el rango [-zmax,zmax] y sean no triviales
+    b = np.sort(b)
 
-  aux = [(abs(b)<=zmax) & (b!=0)]
+    # Se definen los criterios para que las componentes de la solucion
+    # sean != 0, estén en el rango [-zmax,zmax] y sean no triviales
 
-  pos = np.array([i for i in b if i>=0])
-  neg = np.array([i for i in b if i<0])
+    aux = [(abs(b) <= zmax) & (b != 0)]
 
-  comp = np.isin(pos,np.absolute(neg))
+    pos = np.array([i for i in b if i >= 0])
+    neg = np.array([i for i in b if i < 0])
 
-  # Se descartan soluciones que no cumplan dichos criterios
+    comp = np.isin(pos, np.absolute(neg))
 
-  if np.array(aux).all() and anomaly.free.gcd !=0 and not comp.any():
+    # Se descartan soluciones que no cumplan dichos criterios
 
-    # Se retorna un diccionario para listar las soluciones en un DataFrame
+    if np.array(aux).all() and anomaly.free.gcd != 0 and not comp.any():
 
-    return {'k-l':arreglo,'k': k, 'l':l, 'Solucion': b, 'mcd': anomaly.free.gcd}
+        # Se retorna un diccionario para listar las soluciones en un DataFrame
+
+        return {'k-l': arreglo, 'k': K, 'l': L, 'Solucion': b, 'mcd': anomaly.free.gcd}
 
 
 # PARÁMETROS IMPORTANTES PARA CORRER EL PROGRAMA EN PARALELO POR BLOQUES
 
-def dic(n,N,max,imax,zmax):
+def dic(n, N, max, imax, zmax):
 
-  # Número total de listas k-l de mi sistema
+    # Número total de listas k-l de mi sistema
 
-  N_uni = pow(2*9 +1.,n-2)
+    N_uni = pow(2 * max + 1., n - 2)
 
-  # Número de listas k-l (SUGERIDA) en que voy a correr el programa por tramos
+    # Número de listas k-l (SUGERIDA) en que voy a correr el programa por tramos
 
-  if N is None:
-    N = 1000000
+    # if N is None:
+    # N = 1000000
 
-  # Rango en que se generan las listas k-l
+    # Rango en que se generan las listas k-l
 
-  if max is None:
-    max = 9
+    # if max is None:
+    #  max = 9
 
-  # Número máximo (SUGERIDO) de iteraciones
+    # Número máximo (SUGERIDO) de iteraciones
 
-  if imax is None:
-    if N//N_uni>10:
-      imax = 0
-    else:
-      imax = int((10*N_uni)//N)
+    if imax is None:
+        if N // N_uni > 10:
+            imax = 0
+        else:
+            imax = int((10 * N_uni) // N)
 
-  # Rango de las soluciones quirales encontradas
+    # Rango de las soluciones quirales encontradas
 
-  if zmax is None:
-    zmax = 30
+    # if zmax is None:
+    # zmax = 30
 
-  return {'n':n, 'N': N,'max':max,'imax':imax,'zmax':zmax}
+    return {'n': n, 'N': N, 'max': max, 'imax': imax, 'zmax': zmax}
 
 # PROGRAMA EN PARALELO
 
-def paralelo(n,N,max,imax,zmax):
 
-  # Número de fermiones de Weyl
+def paralelo(n, N, max, imax, zmax, output_name):
 
-  n = int(n)
+    # Número de fermiones de Weyl
 
-  # Se obtiene el diccionario con los parámetros importantes para el
-  # programa en paralelo
+    n = int(n)
 
-  data = dic(n,N,max,imax,zmax)
+    # Se obtiene el diccionario con los parámetros importantes para el
+    # programa en paralelo
 
-  # Se define un contador i y un DataFrame vacío
+    data = dic(n, N, max, imax, zmax)
 
-  i = 0
-  imax = data['imax']
-  result_df = pd.DataFrame()
+    # Se define un contador i y un DataFrame vacío
 
-  # Inicializando el tiempo
+    i = 0
+    imax = data['imax']
+    result_df = pd.DataFrame()
 
-  start_p = time.time()
+    # Inicializando el tiempo
 
-  # El programa en paralelo se corre un número imax de iteraciones
+    start_p = time.time()
 
-  while i <= imax:
-    
-    # Se generan los arreglos l-k de forma aleatoria
+    # El programa en paralelo se corre un número imax de iteraciones
 
-    kl = da.random.randint(-data['max'],data['max']+1,(data['N'],n-2))
-    kl = kl.to_dask_dataframe().drop_duplicates().to_dask_array()
+    while i <= imax:
 
-    # Se obtiene el arreglo
+        # Se generan los arreglos l-k de forma aleatoria
 
-    kl = kl.compute()
+        kl = da.random.randint(-data['max'], data['max'] + 1, (data['N'], n - 2))
+        kl = kl.to_dask_dataframe().drop_duplicates().to_dask_array()
 
-    # Se pone a trabajar el # de CPU's disponibles en paralelo para
-    # encontrar las soluciones correspondientes a los arreglos k, l
+        # Se obtiene el arreglo
 
-    pool = Pool(cpu_count())
-    sol = pool.map(partial(soluciones, zmax=data['zmax']), kl)
-    pool.close()
+        kl = kl.compute()
 
-    # Se elimina el arreglo generado de k-l para liberar la RAM
+        # Se pone a trabajar el # de CPU's disponibles en paralelo para
+        # encontrar las soluciones correspondientes a los arreglos k, l
 
-    del kl
+        pool = Pool(cpu_count())
+        sol = pool.map(partial(soluciones, zmax=data['zmax']), kl)
+        pool.close()
 
-    # Se añaden los resultados a una lista y se eliminan lo None
+        # Se elimina el arreglo generado de k-l para liberar la RAM
 
-    result = [s for s in sol if s]
+        del kl
 
-    # Se agregan los resultados al data frame
+        # Se añaden los resultados a una lista y se eliminan lo None
 
-    result_df = result_df.append(result, ignore_index = True)
-  
-    i+=1
+        result = [s for s in sol if s]
 
-  # Se eliminan las soluciones repetidas
-  
-  lg = len(result_df.index)
+        # Se agregan los resultados al data frame
 
-  for k in range(1,int(data['zmax'])):
-    for l in range(lg):
-      try:
-        if k == result_df['Solucion'][l][-1]:
-          result_df['Solucion'][l] = np.sort(-result_df['Solucion'][l])
-      except KeyError:
-        continue
+        result_df = result_df.append(result, ignore_index=True)
 
-    result_df['Solucion_s'] = result_df['Solucion'].astype(str)
-    result_df = result_df.drop_duplicates('Solucion_s')
+        i += 1
 
-  # Se organizan los resultados del DataFrame final
-  
-  result_df = result_df.sort_values(by = ['Solucion_s']).drop('Solucion_s',axis='columns').reset_index(drop=True)
+    # Se eliminan las soluciones repetidas
 
-  # Se entrega un archivo .json con las soluciones para un n determinado
-  
-  result_df.to_json(f'solution_{n}.json',orient='records')
+    lg = len(result_df.index)
 
-  # N = data['N']
+    for k in range(1, int(data['zmax'])):
+        for j in range(lg):
+            try:
+                if k == result_df['Solucion'][j][-1]:
+                    result_df['Solucion'][j] = np.sort(-result_df['Solucion'][j])
+            except KeyError:
+                continue
 
-  # print(f'\nGrid → {[N*imax,n-2]}')
-  # print(f'Tiempo ejecución → {(time.time()-start_p)/60.} min')
-  # print(f'Soluciones únicas→ {len(result_df.index)}\n')
+        result_df['Solucion_s'] = result_df['Solucion'].astype(str)
+        result_df = result_df.drop_duplicates('Solucion_s')
+
+    # Se organizan los resultados del DataFrame final
+
+    result_df = result_df.sort_values(by=['Solucion_s']).drop('Solucion_s', axis='columns').reset_index(drop=True)
+
+    # Se entrega un archivo .json con las soluciones para un n determinado
+
+    result_df.to_json(output_name + f'_{n}.json', orient='records')
+
+    N = data['N']
+
+    if imax != 0:
+        print(f'\nGrid → {[N*imax,n-2]}')
+    else:
+        print(f'\nGrid → {[N,n-2]}')
+
+    print(f'Tiempo ejecución → {(time.time()-start_p)/60.} min')
+    print(f'Soluciones únicas→ {len(result_df.index)}\n')
+
+    return len(result_df.index)

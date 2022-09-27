@@ -1,45 +1,47 @@
 #!/usr/bin/env python3
+#from chiral import chiralsol
 from chiral import chiralsol
 import argparse
 
-parser = argparse.ArgumentParser(
-          description='Calcula las soluciones quirales de n componentes')
+parser = argparse.ArgumentParser(description='Calcula las soluciones quirales de n componentes')
 # See: https://stackoverflow.com/a/5271692/2268280
 # Define option without any argument args.Spanish == True
 
-parser.add_argument('--N', '--NumberLists',
+parser.add_argument('n',
                     type=int,
+                    help='Número de elementos en cada una de las soluciones encontradas')
+
+parser.add_argument('--N',
+                    type=int,
+                    default = 1000000,
                     help='Número de listas k-l a generar de forma aleatoria (DEFAULT = 1000000)')
 
-parser.add_argument('--imax', '--MaximumIteration'
+parser.add_argument('--imax',
                     type=int,
+                    default = None,
                     help='Número de iteraciones en que el programa genera y corre las N listas k-l aleatorias para hallar las soluciones (DEFAULT = (10*N_uni)//N)')
 
-parser.add_argument('--m', '--Maximum',
+parser.add_argument('--m',
                     type=int,
+                    default = 9,
                     help='Valor absoluto del número máximo entre el cual se van a generar las listas k-l (DEFAULT = 9)')
 
-parser.add_argument('--zmax', '--MaximumComponent',
+parser.add_argument('--zmax',
                     type=int,
+                    default = 30,
                     help='Valor absoluto del número máximo entre el cual se van a generar soluciones quirales (DEFAULT = 30)')
 
 # Positional argument (with optional value through `nargs`):
 # https://stackoverflow.com/questions/4480075/argparse-optional-positional-arguments
-parser.add_argument('file', nargs='?',
-                    default='',
+parser.add_argument('--output_name',
+                    type=str,
+                    default='soluciones',
                     help='Prefijo del archivo .json de salida: output_name_n.json (DEFAULT = soluciones_n.json)')
 
 
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    s = abc123.hello()
-    if args.Spanish:
-        s = s.replace('Hello', 'Hola').replace('World', '¡Mundo')
-    if args.extra_message:
-        s = s + f' {args.extra_message}'
-    if args.file:
-        f = open(args.file, 'w')
-        f.write(f'{s}\n')
-        f.close()
-    print(s)
+    chiralsol.paralelo(args.n, args.N, args.m, args.imax, args.zmax, args.output_name)
+
+# def paralelo(n,N,max,imax,zmax,output_name)

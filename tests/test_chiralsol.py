@@ -4,7 +4,6 @@ from chiral import chiralsol
 
 class Test_chiralsolone(unittest.TestCase):
     def test__working(self):
-#           self.assertEqual(1,1,True)
         self.assertEqual(chiralsol.paralelo(5, None, None, None, None, None),
                          11, True)
 

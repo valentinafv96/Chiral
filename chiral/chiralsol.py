@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Importando librerías
 
 import numpy as np

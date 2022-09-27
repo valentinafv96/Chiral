@@ -160,10 +160,8 @@ def paralelo(n,N,max,imax,zmax):
   
   result_df.to_json(f'solution_{n}.json',orient='records')
 
-  N = data['N']
+  # N = data['N']
 
-  print(f'\nGrid → {[N*imax,n-2]}')
-  print(f'Tiempo ejecución → {(time.time()-start_p)/60.} min')
-  print(f'Soluciones únicas→ {len(result_df.index)}\n')
-
-paralelo(7,None,None,None,None)
+  # print(f'\nGrid → {[N*imax,n-2]}')
+  # print(f'Tiempo ejecución → {(time.time()-start_p)/60.} min')
+  # print(f'Soluciones únicas→ {len(result_df.index)}\n')

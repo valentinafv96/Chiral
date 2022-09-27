@@ -64,7 +64,7 @@ def main():
         # Dependent packages (distributions)
         # See: https://github.com/pypa/pipenv/issues/2171
         # See: https://docs.scipy.org/doc/scipy/dev/toolchain.html#numpy
-        install_requires=['numpy', 'dask', 'anomalies', 'pandas', 'functools'],
+        install_requires=['numpy', 'dask', 'anomalies', 'pandas'],
     )
 
 

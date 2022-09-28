@@ -106,7 +106,7 @@ def paralelo(n, N=1000000, max=9, zmax=30, imax=None, output_name='soluciones'):
         # encontrar las soluciones correspondientes a los arreglos k, l
 
         pool = Pool(cpu_count())
-        sol = pool.map(partial(soluciones, zmax), kl)
+        sol = pool.map(partial(soluciones, zmax=zmax), kl)
         pool.close()
 
         # Se elimina el arreglo generado de k-l para liberar la RAM

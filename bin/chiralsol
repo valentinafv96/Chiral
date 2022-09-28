@@ -42,6 +42,6 @@ parser.add_argument('--output_name',
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    chiralsol.paralelo(args.n, N = args.N, max = args.m, imax = args.imax, zmax = args.zmax, output_name = args.output_name)
+    chiralsol.paralelo(args.n, N = args.N, max = args.m, zmax = args.zmax, imax = args.imax, output_name = args.output_name)
 
 # def paralelo(n,N,max,imax,zmax,output_name)

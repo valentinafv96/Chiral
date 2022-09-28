@@ -18,8 +18,6 @@ Si se desea tener control sobre todos los parámetros del sistema, las entradas 
 
 NOTA: Como `output_name` es un string debe ponerse entre comillas.
 
-def paralelo(n, N=1000000, max=9, zmax=30, imax=None, output_name='soluciones')
-
 La función se implementa a continuación como: `chiralsol.paralelo(n,N,max,zmax,imax,output_name)`, pero bien se prodría especificar solamente el n y los demás valores se toman por defecto en el programa como: 
 
   - `N` = 1000000

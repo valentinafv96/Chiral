@@ -23,6 +23,8 @@ La función se implementa a continuación como: chiralsol.paralelo(n,N,max,imax,
   - imax = $(10 * N_{uni}) // N, \quad N_{uni} = (2\times max +1)^{n-2}$
   - zmax = 30
   - output_name = 'soluciones'
+  
+de tal forma que la función se implementa como: chiralsol.paralelo(n)
 
 ## Install
 ```bash

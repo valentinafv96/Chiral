@@ -51,7 +51,7 @@ def main():
 
         # Details
         url="https://github.com/valentinafv96/chiralsol.git",
-        scripts=['bin/args'],
+        scripts=['bin/chiralsol'],
         #
         license="BSD",
 

@@ -32,4 +32,4 @@ Soluciones únicas → 11
 ```
 
 ## Example
-Una muestra del archivo que retorna el programa para los parámetros ingresados anteriormente se puede encontrar [acá](https://github.com/restrepo/anomaly/raw/main/solutions.json.gz) [JSON]
+Una muestra del archivo que retorna el programa para los parámetros ingresados anteriormente se puede encontrar [acá](https://github.com/valentinafv96/chiralsol) [JSON]

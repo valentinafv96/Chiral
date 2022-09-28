@@ -20,14 +20,6 @@ NOTA: Como `output_name` es un string debe ponerse entre comillas.
 
 La función se implementa a continuación como: `chiralsol.paralelo(n,N,max,zmax,imax,output_name)`, pero bien se prodría especificar solamente el n y los demás valores se toman por defecto en el programa como: 
 
-  - `N` = 1000000
-  - `max` = 9
-  - `zmax` = 30
-  - `imax` = $(10 * N_{uni}) // N, \quad N_{uni} = (2\times max +1)^{n-2}$
-  - `output_name` = 'soluciones'
-  
-de tal forma que la función se implementa como: `chiralsol.paralelo(n)`
-
 ## Install
 ```bash
 $ pip install -i https://test.pypi.org/simple/ chiralsol

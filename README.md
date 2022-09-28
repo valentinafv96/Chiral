@@ -20,7 +20,7 @@ La función se implementa a continuación como: chiralsol.paralelo(n,N,max,imax,
 
   - N = 1000000
   - max = 9
-  - imax = (10 * N_{uni}) // N, N_{uni}
+  - imax = (10 * $N_{uni}$) // N, N_{uni}
   - zmax = 30
   - output_name = 'soluciones'
 

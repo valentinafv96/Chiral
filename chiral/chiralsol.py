@@ -173,6 +173,6 @@ def paralelo(n, N, max, imax, zmax, output_name):
         print(f'\nGrid → {[N,n-2]}')
 
     print(f'Tiempo ejecución → {(time.time()-start_p)/60.} min')
-    print(f'Soluciones únicas→ {len(result_df.index)}\n')
+    print(f'Soluciones únicas → {len(result_df.index)}\n')
 
     return len(result_df.index)

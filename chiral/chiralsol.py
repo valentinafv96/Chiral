@@ -87,7 +87,7 @@ def dic(n, N, max, imax, zmax):
 # PROGRAMA EN PARALELO
 
 
-def paralelo(n, N, max, imax, zmax, output_name):
+def paralelo(n, N = 1000000, max = 9, imax = 0, zmax = 30, output_name = 'soluciones'):
 
     # Número de fermiones de Weyl
 

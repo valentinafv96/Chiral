@@ -53,7 +53,7 @@ def soluciones(arreglo, zmax):
 
 # PARÁMETROS IMPORTANTES PARA CORRER EL PROGRAMA EN PARALELO POR BLOQUES
 
-def dic(n, N, max, zmax):
+def param(n, N, max, zmax, imax):
 
     # Número total de listas k-l de mi sistema
 
@@ -67,16 +67,18 @@ def dic(n, N, max, zmax):
         else:
             imax = int((10 * N_uni) // N)
 
-    return {'n': n, 'N': N, 'max': max, 'imax': imax, 'zmax': zmax}
+    return imax
 
 # PROGRAMA EN PARALELO
 
 
-def paralelo(n, N = 1000000, max = 9, zmax = 30, imax = dic(n, N, max, zmax)['imax'], output_name = 'soluciones'):
+def paralelo(n, N=1000000, max=9, zmax=30, imax=None, output_name='soluciones'):
 
     # Número de fermiones de Weyl
 
     n = int(n)
+
+    imax = param(n, N, max, zmax, imax)
 
     # Se define un contador i y un DataFrame vacío
 

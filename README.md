@@ -20,7 +20,7 @@ La función se implementa a continuación como: chiralsol.paralelo(n,N,max,imax,
 
 ## Install
 ```bash
-$ pip install --
+$ pip install -i https://test.pypi.org/simple/ chiralsol
 ```
 ## USAGE
 ```python

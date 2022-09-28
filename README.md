@@ -3,32 +3,33 @@
 ![Python package](https://github.com/valentinafv96/chiralsol/workflows/Python%20package/badge.svg)
 ![Upload Python Package](https://github.com/valentinafv96/chiralsol/workflows/Upload%20Python%20Package/badge.svg)
 
-Implement the anomaly free solution of  [arXiv:1905.13729](https://arxiv.org/abs/1905.13729) [PRL]:
+Se encuentran las soluciones quirales (No Triviales) como se presentan en [arXiv:1905.13729](https://arxiv.org/abs/1905.13729) [PRL]:
 
-Obtain a numpy array `z` of `N` integers which satisfy the Diophantine equations
+Las soluciones totales son un conjunto de arreglos (z) de numpy de n enteros que satisfacen las ecuaciones diofánticas, i.e, los z tq:
+
 ```python
 >>> z.sum()
 0
 >>> (z**3).sum()
 0
 ```
-The input is two lists `l` and `k` with any `(N-3)/2` and `(N-1)/2` integers for `N` odd, or `N/2-1` and `N/2-1` for `N` even (`N>4`).
-The function is implemented below under the name: `free(l,k)`
+
+Las entradas del programa son en orden: n (El número de componentes de la solución), N (número de listas k-l generadas aleatoriamente en las que se corre el programa), max (Rango sobre el que van a generar los valores de las componente de las listas k-l), imax (Número de veces en que el programa va a correr las N listas aleatorias), zmax (Rango de las componentes de las soluciones) y output_name (Prefijo del archivo .json que se genera con todas las soluciones encontradas).
+
+La función se implementa a continuación como: chiralsol.paralelo(n,N,max,imax,zmax,output_name)
 
 ## Install
 ```bash
-$ pip install anomalies
+$ pip install --
 ```
 ## USAGE
 ```python
->>> from anomalies import anomaly
->>> anomaly.free([-1,1],[4,-2])
-array([  3,   3,   3, -12, -12,  15])
->>> anomaly.free.gcd
-3
->>> anomaly.free.simplified
-array([ 1,  1,  1, -4, -4,  5])
+>>> from chiral import chiralsol
+>>> chiralsol.paralelo(5,1000000,9,0,30,soluciones)
+Grid → [1000000, 3]
+Tiempo ejecución → 0.013944939772288004 min
+Soluciones únicas → 11
 ```
 
 ## Example
-A sample for `4<N<13` with integers until `|30|` with `~400 000` chiral solutions can be download from [here](https://github.com/restrepo/anomaly/raw/main/solutions.json.gz) [JSON]
+Una muestra del archivo que retorna el programa para los parámetros ingresados anteriormente se puede encontrar [acá](https://github.com/restrepo/anomaly/raw/main/solutions.json.gz) [JSON]

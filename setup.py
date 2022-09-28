@@ -37,7 +37,7 @@ def main():
         name="chiralsol",
 
         # Version number (initial):
-        version="0.0.1",
+        version="0.0.5",
 
         # Application author details:
         author="Valentina",

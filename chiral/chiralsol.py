@@ -53,21 +53,11 @@ def soluciones(arreglo, zmax):
 
 # PARÁMETROS IMPORTANTES PARA CORRER EL PROGRAMA EN PARALELO POR BLOQUES
 
-def dic(n, N, max, imax, zmax):
+def dic(n, N, max, zmax):
 
     # Número total de listas k-l de mi sistema
 
     N_uni = pow(2 * max + 1., n - 2)
-
-    # Número de listas k-l (SUGERIDA) en que voy a correr el programa por tramos
-
-    # if N is None:
-    # N = 1000000
-
-    # Rango en que se generan las listas k-l
-
-    # if max is None:
-    #  max = 9
 
     # Número máximo (SUGERIDO) de iteraciones
 
@@ -77,31 +67,20 @@ def dic(n, N, max, imax, zmax):
         else:
             imax = int((10 * N_uni) // N)
 
-    # Rango de las soluciones quirales encontradas
-
-    # if zmax is None:
-    # zmax = 30
-
     return {'n': n, 'N': N, 'max': max, 'imax': imax, 'zmax': zmax}
 
 # PROGRAMA EN PARALELO
 
 
-def paralelo(n, N = 1000000, max = 9, imax = 0, zmax = 30, output_name = 'soluciones'):
+def paralelo(n, N = 1000000, max = 9, zmax = 30, imax = dic(n, N, max, zmax)['imax'], output_name = 'soluciones'):
 
     # Número de fermiones de Weyl
 
     n = int(n)
 
-    # Se obtiene el diccionario con los parámetros importantes para el
-    # programa en paralelo
-
-    data = dic(n, N, max, imax, zmax)
-
     # Se define un contador i y un DataFrame vacío
 
     i = 0
-    imax = data['imax']
     result_df = pd.DataFrame()
 
     # Inicializando el tiempo
@@ -114,7 +93,7 @@ def paralelo(n, N = 1000000, max = 9, imax = 0, zmax = 30, output_name = 'soluci
 
         # Se generan los arreglos l-k de forma aleatoria
 
-        kl = da.random.randint(-data['max'], data['max'] + 1, (data['N'], n - 2))
+        kl = da.random.randint(- max, max + 1, (N, n - 2))
         kl = kl.to_dask_dataframe().drop_duplicates().to_dask_array()
 
         # Se obtiene el arreglo
@@ -125,7 +104,7 @@ def paralelo(n, N = 1000000, max = 9, imax = 0, zmax = 30, output_name = 'soluci
         # encontrar las soluciones correspondientes a los arreglos k, l
 
         pool = Pool(cpu_count())
-        sol = pool.map(partial(soluciones, zmax=data['zmax']), kl)
+        sol = pool.map(partial(soluciones, zmax), kl)
         pool.close()
 
         # Se elimina el arreglo generado de k-l para liberar la RAM
@@ -146,7 +125,7 @@ def paralelo(n, N = 1000000, max = 9, imax = 0, zmax = 30, output_name = 'soluci
 
     lg = len(result_df.index)
 
-    for k in range(1, int(data['zmax'])):
+    for k in range(1, int(zmax)):
         for j in range(lg):
             try:
                 if k == result_df['Solucion'][j][-1]:
@@ -164,8 +143,6 @@ def paralelo(n, N = 1000000, max = 9, imax = 0, zmax = 30, output_name = 'soluci
     # Se entrega un archivo .json con las soluciones para un n determinado
 
     result_df.to_json(output_name + f'_{n}.json', orient='records')
-
-    N = data['N']
 
     if imax != 0:
         print(f'\nGrid → {[N*imax,n-2]}')
